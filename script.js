@@ -1,52 +1,89 @@
-var finalAnswer = document.getElementById("ans");
-let expression = "";
-let resetNext = false; 
+const evaulate = document.getElementById("ans");
+expression = "";
+let reset = false;
+function result() {
+    evaulate.value = expression;
+    reset=true;
+}
 function num(n) {
-    if (resetNext) {
-        expression = ""; 
-        resetNext = false;
+    if(reset){
+        deleteAll();
     }
     expression += n;
-    resultEval();
+    result();
 }
-
-function deleteAll() {
-    expression = "";
-    resetNext = false;
-    resultEval();
+function operator(operand) {
+    expression += operand;
+    result();
+    reset=false;
 }
-
 function backSpace() {
     expression = expression.slice(0, -1);
-    resultEval();
+    result();
 }
-
-function resultEval() {
-    finalAnswer.value = expression;
+function deleteAll() {
+    expression = "";
+    result();
 }
+function evaluation(){
+    try{
+        if(expression == ''){
+            expression = '0';
+        }
+        else{
+            expression=eval(expression);
+        result();
+        }
+    }
+    catch(error){
+        alert("wrong");
+    }
+}
+const toggleButton = document.getElementById("darkModeToggle");
+const container = document.getElementById("container");
+const firstButton = document.getElementsByClassName("button-container-button");
+const secondButton = document.getElementsByClassName("but-color");
 
-function percent() {
-    try {
-        expression = (parseFloat(expression) / 100).toString();
-        resetNext = true; 
-        resultEval();
-    } catch {
-        finalAnswer.value = "Error";
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode-body");
+    container.classList.add("dark-mode-container");
+    evaulate.classList.add("dark-mode-input");
+    for (let button of firstButton) {
+        button.classList.add("dark-mode-button");
+    }
+    for (let button of secondButton) {
+        button.classList.add("dark-mode-but-color");
     }
 }
 
-function operator(operand) {
-    if (resetNext) resetNext = false; 
-    expression += operand;
-    resultEval();
-}
 
-function evaluation() { 
-    try {
-        expression = eval(expression).toString();
-        resultEval();
-        resetNext = true; 
-    } catch (error) {
-        finalAnswer.value = "Error";
+function darkMode() {
+    document.body.classList.toggle("dark-mode-body");
+
+    if (document.body.classList.contains("dark-mode-body")) {
+        container.classList.add("dark-mode-container");
+        evaulate.classList.add("dark-mode-input");
+        for (let button of firstButton) {
+            button.classList.add("dark-mode-button");
+        }
+        for (let button of secondButton) {
+            button.classList.add("dark-mode-but-color");
+        }
+
+        localStorage.setItem("theme", "dark");
+    } else {
+        container.classList.remove("dark-mode-container");
+        evaulate.classList.remove("dark-mode-input");
+        for (let button of firstButton) {
+            button.classList.remove("dark-mode-button");
+        }
+        for (let button of secondButton) {
+            button.classList.remove("dark-mode-but-color");
+        }
+
+        localStorage.setItem("theme", "light");
     }
 }
+
+toggleButton.addEventListener("click", darkMode);
+
