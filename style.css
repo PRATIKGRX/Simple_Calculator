@@ -9,14 +9,14 @@ body {
     justify-content: center;
     align-items: center;
     background:rgb(104, 104, 104);
+    height: 100vh;
 }
-
 .dark-mode-body{
     background:rgb(73, 73, 73);
 }
 .container {
     margin-top: 30px;
-    height: 90vh;
+    height: 550px;
     width: 420px;
     background-color: black;
     border-radius: 12px;
@@ -46,9 +46,7 @@ body {
 
 
 .container .test {
-
     flex: 1;
-
 }
 
 .container .button-container {
